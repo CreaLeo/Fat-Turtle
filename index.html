@@ -1,96 +1,276 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  index.html  —  the home page of your website
-  ============================================================
-
-  A website is, at its core, just files sitting on a computer
-  somewhere. When someone types your domain name, a server hands
-  them this file, and their browser draws it on screen.
-
-  "index.html" is a magic name: when a browser asks for a folder
-  (like https://yourdomain.nl/), the server automatically serves
-  the file called index.html from that folder.
-
-  Everything between <!-- and --> is a COMMENT. The browser
-  ignores it. It's only here to explain things to you.
--->
-
-<!--
-  <html> wraps the whole document.
-  lang="nl" tells browsers and screen readers the page is Dutch.
-  Change to "en" if you write in English.
--->
-<html lang="nl">
+<html lang="en">
 
 <head>
-  <!--
-    The <head> is the part nobody SEES. It's information ABOUT
-    the page: its title, its character set, its stylesheet.
-  -->
-
-  <!-- Tells the browser to read this file as UTF-8, so é, ë, ü etc. show up correctly -->
   <meta charset="UTF-8">
-
-  <!-- Makes the page scale properly on phones. Without this, mobile looks zoomed out. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Shown in the browser tab and by Google -->
-  <title>Leo Peters</title>
+  <title>The Fat Turtle — Lunch, Drink, Coffee</title>
+  <meta name="description" content="At The Fat Turtle we believe in the art of slowing down. Long lunches, specialty coffee and evening drinks in a warm, intimate setting.">
 
-  <!-- The one-line description Google shows under your link -->
-  <meta name="description" content="De persoonlijke website van Leo Peters.">
+  <!-- Social sharing preview -->
+  <meta property="og:title" content="The Fat Turtle — Lunch, Drink, Coffee">
+  <meta property="og:description" content="Good food, good people, good times.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/logo.png">
 
-  <!--
-    This line loads your styling. The HTML says WHAT is on the
-    page; the CSS in style.css says what it LOOKS like.
-    href="style.css" means "the file style.css, in the same folder as me".
-  -->
+  <link rel="icon" href="images/logo-mark.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&family=Parisienne&display=swap">
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- The <body> is everything the visitor actually sees. -->
 
-  <!--
-    <main> marks the main content of the page. Tags like <main>,
-    <header>, <footer> don't look different by themselves — they
-    exist to give MEANING, which helps Google and screen readers.
-  -->
+  <!-- Skip link: lets keyboard users jump past the navigation -->
+  <a class="skip-link" href="#hero">Skip to content</a>
+
+
+  <!-- ============================================================
+       NAVBAR
+       Left links · centre logo panel · right links.
+       The logo panel deliberately hangs below the bar and overlaps
+       the hero image, exactly as in the mock-up.
+       ============================================================ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+
+      <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__links nav__links--left" aria-label="Primary">
+        <a href="#hero" class="nav__link is-active">Home</a>
+        <a href="#about" class="nav__link">About</a>
+        <a href="#menu" class="nav__link">Menu</a>
+      </nav>
+
+      <a href="#hero" class="nav__logo" aria-label="The Fat Turtle — home">
+        <img src="images/logo-mark.png" alt="The Fat Turtle" width="900" height="533">
+      </a>
+
+      <nav class="nav__links nav__links--right" aria-label="Secondary">
+        <a href="#reservations" class="nav__link">Reservations</a>
+        <a href="#contact" class="nav__link">Contact</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="Mobile">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#reservations">Reservations</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="mobile-menu__tagline">Lunch &nbsp;|&nbsp; Drink &nbsp;|&nbsp; Coffee</p>
+  </div>
+
+
   <main>
 
-    <!-- <h1> = the most important heading on the page. Use exactly one. -->
-    <h1>Ewa dikkertje</h1>
+    <!-- ============================================================
+         HERO
+         Full-bleed atmospheric photograph with a soft warm overlay.
+         ============================================================ -->
+    <section class="hero" id="hero">
+      <div class="hero__media" role="img" aria-label="The warm, softly lit interior of The Fat Turtle"></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
 
-    <!-- <p> = paragraph. Plain text. -->
-    <p class="intro">
-      Welkom op mijn eerste zelfgebouwde website.
-      Handgeschreven in HTML en CSS.
-    </p>
+      <div class="hero__content">
+        <h1 class="hero__title">The Fat Turtle</h1>
+        <p class="hero__tagline">
+          <span class="rule" aria-hidden="true"></span>
+          Lunch &nbsp;|&nbsp; Drink &nbsp;|&nbsp; Coffee
+          <span class="rule" aria-hidden="true"></span>
+        </p>
+        <span class="hero__stem" aria-hidden="true"></span>
+        <a href="#about" class="btn btn--light">Discover more</a>
+      </div>
+    </section>
 
-    <!--
-      THE PICTURE.
-      src  = which file to show (photo.jpg, sitting in the same folder)
-      alt  = a text description, read aloud to blind visitors and
-             shown if the image fails to load. Never leave it empty.
-      width/height = the image's real pixel size. Telling the browser
-             up front stops the page from "jumping" while it loads.
-    -->
-    <img
-      src="photo.jpg"
-      alt="Beschrijf hier kort wat er op de foto te zien is"
-      width="1200"
-      height="800">
 
-    <!-- A short caption under the image. Optional — delete if you don't want it. -->
-    <p class="caption">Een korte omschrijving bij de foto.</p>
+    <!-- ============================================================
+         INTRO — split layout, text left, lifestyle image right
+         ============================================================ -->
+    <section class="intro section" id="about">
+      <div class="wrap intro__grid">
+
+        <div class="intro__text reveal">
+          <p class="eyebrow">Welcome</p>
+          <h2 class="display">Good food,<br>good people,<br>good times.</h2>
+          <span class="hairline" aria-hidden="true"></span>
+          <p class="lede">
+            At The Fat Turtle, we believe in the art of slowing down.
+            Whether it's a long lunch, a perfectly brewed coffee or an
+            evening drink with friends — you're in the right place.
+          </p>
+          <a href="#reservations" class="link-arrow">About us <span aria-hidden="true">→</span></a>
+        </div>
+
+        <figure class="intro__figure reveal">
+          <img class="photo" src="" data-src-var="--img-drink"
+               alt="An espresso martini on a marble table beside a flickering candle"
+               loading="lazy" width="1200" height="1400">
+        </figure>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         FEATURE STRIP — three values on a warm taupe ground
+         ============================================================ -->
+    <section class="values" id="menu">
+      <div class="wrap values__grid">
+
+        <article class="value reveal">
+          <svg class="value__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M12 36c0-12 8-20 24-22-2 16-10 24-24 22Z"/>
+            <path d="M12 36c4-6 9-11 16-15"/>
+          </svg>
+          <h3>Quality Ingredients</h3>
+          <p>We work with local suppliers and seasonal ingredients to bring you the best in every bite.</p>
+        </article>
+
+        <article class="value reveal">
+          <svg class="value__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M11 12h26L24 27 11 12Z"/>
+            <path d="M24 27v10"/>
+            <path d="M17 38h14"/>
+            <path d="M33 9l5-3"/>
+          </svg>
+          <h3>Drinks &amp; Cocktails</h3>
+          <p>From classic cocktails to unique creations, our bar is made for good moments.</p>
+        </article>
+
+        <article class="value reveal">
+          <svg class="value__icon" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M12 20h22v10a9 9 0 0 1-9 9h-4a9 9 0 0 1-9-9V20Z"/>
+            <path d="M34 23h3a5 5 0 0 1 0 10h-3"/>
+            <path d="M19 13c0-2 2-2 2-4M25 13c0-2 2-2 2-4"/>
+          </svg>
+          <h3>Coffee Culture</h3>
+          <p>Specialty coffee, made with care. Because every day deserves a perfect start.</p>
+        </article>
+
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         RESERVATION CTA
+         The controls are presentational for now — no booking backend.
+         ============================================================ -->
+    <section class="reserve section" id="reservations">
+      <div class="wrap reserve__grid">
+
+        <div class="reserve__text reveal">
+          <p class="eyebrow">Join us</p>
+          <h2 class="display display--sm">Reserve your table</h2>
+          <p class="reserve__sub">We can't wait to welcome you.</p>
+        </div>
+
+        <form class="reserve__form reveal" id="reserve-form" novalidate>
+          <div class="field">
+            <label class="sr-only" for="res-date">Date</label>
+            <select id="res-date" name="date">
+              <option value="" selected>Date</option>
+              <option>Today</option>
+              <option>Tomorrow</option>
+              <option>This weekend</option>
+              <option>Choose a date…</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="res-time">Time</label>
+            <select id="res-time" name="time">
+              <option value="" selected>Time</option>
+              <option>12:00</option>
+              <option>13:30</option>
+              <option>17:00</option>
+              <option>19:00</option>
+              <option>20:30</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="res-people">People</label>
+            <select id="res-people" name="people">
+              <option value="" selected>People</option>
+              <option>1 guest</option>
+              <option>2 guests</option>
+              <option>3 guests</option>
+              <option>4 guests</option>
+              <option>5+ guests</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn--dark">Book now</button>
+          <p class="reserve__note" id="reserve-note" role="status"></p>
+        </form>
+
+      </div>
+    </section>
 
   </main>
 
-  <footer>
-    <!-- &copy; is the © symbol. Special characters are written like this in HTML. -->
-    <p>&copy; 2026 Leo Peters &middot; <a href="mailto:leojan.peters@gmail.com">Mail me</a></p>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" id="contact">
+    <div class="wrap footer__grid">
+
+      <div class="footer__brand">
+        <!-- Same artwork as the header, reproduced in a single warm
+             bronze so it stays legible on the espresso ground. -->
+        <span class="footer__badge">
+          <img src="images/logo-mark-light.png" alt="The Fat Turtle" width="900" height="533" loading="lazy">
+        </span>
+      </div>
+
+      <nav class="footer__col" aria-label="Footer — The Fat Turtle">
+        <h4>The Fat Turtle</h4>
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#reservations">Reservations</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Footer — Info">
+        <h4>Info</h4>
+        <a href="#contact">Opening Hours</a>
+        <a href="#contact">Location</a>
+        <a href="#contact">Gift Cards</a>
+        <a href="#contact">Careers</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Footer — Follow us">
+        <h4>Follow Us</h4>
+        <a href="#" rel="noopener">Instagram</a>
+        <a href="#" rel="noopener">Facebook</a>
+      </nav>
+
+      <blockquote class="footer__quote">
+        Good food is<br>the foundation of<br>happiness.
+      </blockquote>
+
+    </div>
+
+    <div class="wrap footer__base">
+      <p>&copy; <span id="year">2026</span> The Fat Turtle · Lunch | Drink | Coffee</p>
+    </div>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>

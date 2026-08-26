@@ -1,171 +1,706 @@
 /* ============================================================
-   style.css  —  how the page LOOKS
-   ============================================================
-
-   CSS works with "rules". Every rule has this shape:
-
-       selector {
-         property: value;
-       }
-
-   The SELECTOR picks which elements to style ("body", "h1",
-   ".intro"). The PROPERTIES inside the { } say what to change.
-
-   A name starting with a dot (.intro) matches any element with
-   class="intro" in the HTML. That's how you style one specific
-   thing instead of all paragraphs at once.
-
-   Text between  slash-star  and  star-slash  is a comment.
+   THE FAT TURTLE — style.css
+   ------------------------------------------------------------
+   Sections, in order:
+     0.  Photography  (swap the image URLs here)
+     1.  Design tokens
+     2.  Reset & base
+     3.  Shared pieces (buttons, labels, reveal animation)
+     4.  Navbar + mobile menu
+     5.  Hero
+     6.  Intro
+     7.  Values strip
+     8.  Reservation
+     9.  Footer
+     10. Responsive
    ============================================================ */
 
 
-/* ---- 1. Variables ------------------------------------------
-   These are your own reusable values. Define a colour once here
-   and use it everywhere below. Change it here, and it changes
-   across the whole site. :root just means "the whole document".
+/* ---- 0. PHOTOGRAPHY ---------------------------------------
+   All image sources live here, in one place.
+
+   To use your own photography: drop the files in /images/ and
+   replace the url() below, e.g.  url("images/hero.jpg")
+   Nothing else in the stylesheet needs to change.
+
+   Alternatives if you want to try a different mood — replace
+   the photo id in the URL:
+     hero   1667388969250-1c7220bf3f37   airy dining room
+            1551632436-cbf8dd35adfa      warm, people, wood
+            1636405189493-181ecf851006   greenery indoors
+     drink  1678261739137-85881474209c   two coffee cocktails
+            1619503569646-50b2154078ac   glass on dark wood
 ------------------------------------------------------------ */
 :root {
-  --ink:        #1a1a1a;   /* main text colour       */
-  --muted:      #6b6b6b;   /* softer, secondary text */
-  --background: #fbfaf8;   /* page background        */
-  --accent:     #1d4ed8;   /* link colour            */
-  --max-width:  46rem;     /* how wide content gets  */
+  --img-hero:  url("https://images.unsplash.com/photo-1709548145082-04d0cde481d4?auto=format&fit=crop&w=2400&q=80");
+  --img-drink: url("https://images.unsplash.com/photo-1607687633950-c745bdb4da70?auto=format&fit=crop&w=1400&q=80");
+
+  /* Shown underneath the photographs, so the page still reads
+     as intentional if an image is slow or unavailable. */
+  --img-hero-fallback:  linear-gradient(155deg, #4a3c2e 0%, #241c14 55%, #120e09 100%);
+  --img-drink-fallback: linear-gradient(160deg, #6d5a45 0%, #38291d 100%);
 }
 
 
-/* ---- 2. A tiny reset ---------------------------------------
-   Browsers add default margins and padding. This wipes them so
-   you start from a predictable, blank slate.
-
-   The * means "every element".
-   box-sizing: border-box makes widths include padding + border,
-   which is far more intuitive than the default.
+/* ---- 1. DESIGN TOKENS -------------------------------------
+   Every colour is sampled from the supplied logo and mock-up.
 ------------------------------------------------------------ */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  /* Grounds */
+  --ivory:        #eae6de;
+  --cream:        #e4e0d8;
+  --sand:         #d9d0c4;
+  --taupe:        #837160;
+  --taupe-deep:   #6f5e4f;
+  --espresso:     #1c1b16;
+
+  /* Ink */
+  --ink:          #24211a;
+  --ink-soft:     #5b5346;
+  --ink-faint:    #8d8474;
+  --on-dark:      #e9e4da;
+  --on-dark-soft: #b3a897;
+
+  /* Accents */
+  --bronze:       #96774a;   /* on light grounds  */
+  --bronze-soft:  #c6a272;   /* on dark grounds   */
+  --forest:       #233121;   /* the logo's green  */
+
+  /* Type */
+  --serif:  "Cormorant Garamond", "Times New Roman", Georgia, serif;
+  --sans:   "Jost", "Helvetica Neue", Arial, sans-serif;
+  --script: "Parisienne", "Snell Roundhand", cursive;
+
+  /* Rhythm */
+  --gutter:   clamp(1.25rem, 4vw, 3.5rem);
+  --wrap:     78rem;
+  --section:  clamp(4.5rem, 9vw, 8.5rem);
+  --nav-h:    clamp(56px, 6vw, 68px);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 
-/* ---- 3. The page as a whole -------------------------------- */
+/* ---- 2. RESET & BASE -------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  /* A font "stack": the browser uses the first one it has installed. */
-  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-
-  /* 1.6 = line height is 1.6x the font size. Makes text readable. */
-  line-height: 1.6;
-
-  color: var(--ink);              /* var() reads a variable from :root */
-  background-color: var(--background);
-
-  /* Slightly softer text rendering on Mac */
+  margin: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-x: hidden;          /* belt and braces against sideways scroll */
   -webkit-font-smoothing: antialiased;
 }
 
+img { max-width: 100%; height: auto; display: block; }
 
-/* ---- 4. The content column ---------------------------------
-   max-width stops lines getting uncomfortably long on a big
-   screen. "margin: 0 auto" centres the block horizontally:
-   0 top/bottom, auto left/right.
------------------------------------------------------------- */
-main {
-  max-width: var(--max-width);
+h1, h2, h3, h4 { margin: 0; font-weight: 400; }
+p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+button, select { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--bronze);
+  outline-offset: 3px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
   margin: 0 auto;
-
-  /* padding = space INSIDE the box. 4rem top/bottom, 1.5rem sides. */
-  padding: 4rem 1.5rem 2rem;
+  padding-inline: var(--gutter);
 }
 
+.section { padding-block: var(--section); }
 
-/* ---- 5. Headings and text ---------------------------------- */
-h1 {
-  /* clamp(min, preferred, max): the font grows with the screen
-     but never smaller than 2rem or bigger than 3rem.
-     5vw = 5% of the viewport width. This is responsive type. */
-  font-size: clamp(2rem, 5vw, 3rem);
-
-  line-height: 1.15;
-  letter-spacing: -0.02em;   /* tighten big text slightly */
-  margin-bottom: 1rem;
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
 }
 
-.intro {
-  font-size: 1.15rem;
-  color: var(--muted);
-  margin-bottom: 2.5rem;
+.skip-link {
+  position: absolute; left: -999px; top: 0; z-index: 200;
+  background: var(--espresso); color: var(--on-dark);
+  padding: 0.75rem 1.25rem;
+}
+.skip-link:focus { left: 0; }
+
+
+/* ---- 3. SHARED PIECES ------------------------------------- */
+
+/* Small uppercase label, e.g. WELCOME / JOIN US */
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: 1.35rem;
 }
 
+/* Editorial serif headline */
+.display {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+.display--sm { font-size: clamp(2.1rem, 4.2vw, 3.1rem); }
 
-/* ---- 6. The image ------------------------------------------
-   These two lines are the most important CSS on the page.
-
-   max-width: 100%  →  never wider than its container, so it
-                       can't overflow on a phone.
-   height: auto     →  keep the original proportions while it
-                       shrinks. Without this, it squashes.
-
-   display: block removes a small gap browsers leave under
-   images by default.
------------------------------------------------------------- */
-img {
-  max-width: 100%;
-  height: auto;
+.hairline {
   display: block;
-
-  border-radius: 8px;                          /* rounded corners */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);  /* soft shadow */
+  width: 3.25rem;
+  height: 1px;
+  background: var(--bronze);
+  opacity: 0.55;
+  margin: 1.75rem 0;
 }
 
-.caption {
-  font-size: 0.9rem;
-  color: var(--muted);
-  margin-top: 0.75rem;
+.btn {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  padding: 1.1rem 2.6rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.45s var(--ease), color 0.45s var(--ease),
+              border-color 0.45s var(--ease);
 }
 
+.btn--light {
+  background: var(--cream);
+  color: var(--ink);
+}
+.btn--light:hover {
+  background: transparent;
+  border-color: var(--cream);
+  color: var(--cream);
+}
 
-/* ---- 7. Footer --------------------------------------------- */
-footer {
-  max-width: var(--max-width);
+.btn--dark {
+  background: var(--espresso);
+  color: var(--on-dark);
+}
+.btn--dark:hover {
+  background: var(--taupe);
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s var(--ease);
+}
+.link-arrow span { transition: transform 0.4s var(--ease); }
+.link-arrow:hover { border-bottom-color: currentColor; }
+.link-arrow:hover span { transform: translateX(5px); }
+
+/* Sections fade up gently as they enter the viewport.
+   script.js adds .is-visible via IntersectionObserver. */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+
+/* ---- 4. NAVBAR -------------------------------------------- */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  background: var(--cream);
+  transition: box-shadow 0.5s var(--ease);
+}
+.nav.is-scrolled { box-shadow: 0 1px 22px rgba(28, 27, 22, 0.10); }
+
+.nav__inner {
+  position: relative;
+  max-width: var(--wrap);
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding-inline: var(--gutter);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
 
-  font-size: 0.9rem;
-  color: var(--muted);
-  border-top: 1px solid #e5e3df;
+.nav__links {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.nav__link {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding-block: 0.35rem;
+  border-bottom: 1px solid transparent;
+  transition: color 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.nav__link:hover { color: var(--ink); }
+.nav__link.is-active {
+  color: var(--bronze);
+  border-bottom-color: var(--bronze);
+}
+
+/* The centre panel hangs below the bar and sits over the hero */
+.nav__logo {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  background: var(--cream);
+  padding: 0.9rem clamp(1.1rem, 2.4vw, 2rem) 1.15rem;
+  display: grid;
+  place-items: center;
+  transition: padding 0.5s var(--ease);
+}
+.nav__logo img {
+  width: clamp(112px, 12vw, 168px);
+  height: auto;
+}
+.nav.is-scrolled .nav__logo { padding-bottom: 0.75rem; }
+
+.nav__burger {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0.5rem 0;
+  width: 26px;
+  cursor: pointer;
+}
+.nav__burger span {
+  display: block;
+  height: 1px;
+  background: var(--ink);
+  margin: 6px 0;
+  transition: transform 0.4s var(--ease), opacity 0.3s var(--ease);
+}
+.nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: var(--nav-h) 0 0 0;
+  z-index: 99;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+}
+.mobile-menu[hidden] { display: none; }
+.mobile-menu.is-open { opacity: 1; }
+
+.mobile-menu nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.9rem;
+}
+.mobile-menu a {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--ink);
+}
+.mobile-menu__tagline {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bronze);
 }
 
 
-/* ---- 8. Links ---------------------------------------------- */
-a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;   /* push the underline down a bit */
+/* ---- 5. HERO ---------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: clamp(30rem, 82vh, 50rem);
+  margin-top: var(--nav-h);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-/* :hover is a "pseudo-class" — it applies only while the mouse
-   is over the element. */
-a:hover {
-  text-decoration: none;
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-color: #241c14;
+  background-image: var(--img-hero), var(--img-hero-fallback);
+  background-size: cover;
+  background-position: center 58%;
+  transform: scale(1.04);
+  animation: heroSettle 9s var(--ease) forwards;
+}
+
+@keyframes heroSettle {
+  to { transform: scale(1); }
+}
+
+/* Warm, gentle darkening — enough for legible type, not enough
+   to make the photograph look artificially black. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(20,16,11,0.42) 0%, rgba(20,16,11,0.20) 38%, rgba(20,16,11,0.52) 100%),
+    radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 25%, rgba(18,14,9,0.34) 100%);
+}
+
+.hero__content {
+  text-align: center;
+  color: var(--cream);
+  padding: 6rem var(--gutter) 4.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero__title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 7vw, 5.4rem);
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+
+.hero__tagline {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2.5vw, 1.6rem);
+  margin-top: 1.4rem;
+  font-size: clamp(0.68rem, 1.4vw, 0.86rem);
+  font-weight: 300;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+.hero__tagline .rule {
+  display: block;
+  width: clamp(1.6rem, 5vw, 3.4rem);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.75;
+}
+
+.hero__stem {
+  display: block;
+  width: 1px;
+  height: clamp(2.2rem, 6vh, 3.6rem);
+  background: currentColor;
+  opacity: 0.5;
+  margin: 1.9rem 0;
 }
 
 
-/* ---- 9. Dark mode ------------------------------------------
-   A media query applies its rules only in certain conditions.
-   This one triggers when the visitor's device is set to dark
-   mode. Because all our colours are variables, we only need to
-   redefine those five lines — everything else follows.
-   Delete this whole block if you'd rather always be light.
+/* ---- 6. INTRO --------------------------------------------- */
+.intro { background: var(--ivory); }
+
+.intro__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: center;
+}
+
+.intro__text { max-width: 30rem; }
+
+.lede {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.95;
+  margin-bottom: 2.25rem;
+  max-width: 27rem;
+}
+
+.intro__figure {
+  margin: 0;
+  overflow: hidden;
+  background: var(--img-drink-fallback);
+  aspect-ratio: 6 / 7;
+}
+.intro__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.3s var(--ease);
+}
+.intro__figure:hover img { transform: scale(1.045); }
+.photo.is-broken { opacity: 0; }
+
+
+/* ---- 7. VALUES STRIP -------------------------------------- */
+.values {
+  background: var(--taupe);
+  color: var(--on-dark);
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.values__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.75rem;
+}
+
+.value {
+  text-align: center;
+  padding-inline: clamp(0.5rem, 2vw, 2.25rem);
+}
+
+.value__icon {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 1.5rem;
+  fill: none;
+  stroke: var(--bronze-soft);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.value h3 {
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+}
+
+.value p {
+  font-size: 0.88rem;
+  line-height: 1.85;
+  color: rgba(233, 228, 218, 0.82);
+  max-width: 22rem;
+  margin-inline: auto;
+}
+
+
+/* ---- 8. RESERVATION --------------------------------------- */
+.reserve { background: var(--cream); }
+
+.reserve__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.25rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.reserve__sub {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  margin-top: 1rem;
+}
+
+.reserve__form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  align-items: stretch;
+}
+
+.field { position: relative; display: flex; }
+
+.field::after {                 /* the little chevron */
+  content: "";
+  position: absolute;
+  right: 1.1rem;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--ink-soft);
+  border-bottom: 1px solid var(--ink-soft);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(36, 33, 26, 0.28);
+  border-radius: 0;
+  padding: 1.05rem 2.6rem 1.05rem 1.15rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.4s var(--ease);
+}
+.field select:hover { border-color: var(--bronze); }
+
+.reserve__form .btn { text-align: center; }
+
+.reserve__note {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--bronze);
+  min-height: 1.2em;
+}
+
+
+/* ---- 9. FOOTER -------------------------------------------- */
+.footer {
+  background: var(--espresso);
+  color: var(--on-dark-soft);
+  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+  font-size: 0.85rem;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.75rem;
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.footer__badge {
+  display: grid;
+  place-items: center;
+  width: 138px;
+  height: 138px;
+  border: 1px solid rgba(198, 162, 114, 0.42);
+  border-radius: 50%;
+  padding: 1.15rem;
+}
+.footer__badge img { width: 100%; }
+
+.footer__col { display: flex; flex-direction: column; gap: 0.65rem; }
+
+.footer__col h4 {
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+  margin-bottom: 0.6rem;
+}
+
+.footer__col a {
+  color: var(--on-dark-soft);
+  width: fit-content;
+  transition: color 0.35s var(--ease);
+}
+.footer__col a:hover { color: var(--bronze-soft); }
+
+.footer__quote {
+  margin: 0;
+  font-family: var(--script);
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+  line-height: 1.5;
+  color: var(--bronze-soft);
+}
+
+.footer__base {
+  border-top: 1px solid rgba(233, 228, 218, 0.10);
+  padding-block: 1.6rem 2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: rgba(179, 168, 151, 0.7);
+}
+
+
+/* ---- 10. RESPONSIVE ---------------------------------------
+   Mobile first: everything above is the small-screen layout.
+   These queries add the multi-column arrangements.
 ------------------------------------------------------------ */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink:        #ececec;
-    --muted:      #a0a0a0;
-    --background: #141414;
-    --accent:     #7aa2ff;
+
+/* --- Tablet --- */
+@media (max-width: 63.99rem) {
+  .nav__links { display: none; }
+  .nav__burger { display: block; }
+  .nav__inner { justify-content: space-between; }
+  .nav__inner::after { content: ""; width: 26px; }  /* balances the burger */
+}
+
+@media (min-width: 40rem) {
+  .values__grid { grid-template-columns: repeat(3, 1fr); gap: 0; }
+
+  .value + .value {
+    border-left: 1px solid rgba(233, 228, 218, 0.22);
   }
 
-  footer {
-    border-top-color: #2c2c2c;
+  .reserve__form {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    gap: 0.75rem;
   }
+  .reserve__note { grid-column: 1 / -1; }
+}
+
+/* --- Desktop --- */
+@media (min-width: 64rem) {
+  .intro__grid {
+    grid-template-columns: 1fr 1.05fr;
+    gap: clamp(3rem, 7vw, 6rem);
+  }
+
+  .reserve__grid {
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .footer__grid {
+    grid-template-columns: auto repeat(3, minmax(0, 1fr)) auto;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .footer__quote {
+    text-align: right;
+    padding-left: clamp(1.5rem, 3vw, 2.5rem);
+    border-left: 1px solid rgba(233, 228, 218, 0.12);
+  }
+}
+
+/* Keep the hero title from crowding the hanging logo panel */
+@media (max-width: 47.99rem) {
+  .hero__content { padding-top: 7.5rem; }
+}
+
+
+/* ---- Motion preferences ----------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .hero__media { transform: none; }
 }
