@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  index.html  —  the home page of your website
+  ============================================================
+
+  A website is, at its core, just files sitting on a computer
+  somewhere. When someone types your domain name, a server hands
+  them this file, and their browser draws it on screen.
+
+  "index.html" is a magic name: when a browser asks for a folder
+  (like https://yourdomain.nl/), the server automatically serves
+  the file called index.html from that folder.
+
+  Everything between <!-- and --> is a COMMENT. The browser
+  ignores it. It's only here to explain things to you.
+-->
+
+<!--
+  <html> wraps the whole document.
+  lang="nl" tells browsers and screen readers the page is Dutch.
+  Change to "en" if you write in English.
+-->
+<html lang="nl">
+
+<head>
+  <!--
+    The <head> is the part nobody SEES. It's information ABOUT
+    the page: its title, its character set, its stylesheet.
+  -->
+
+  <!-- Tells the browser to read this file as UTF-8, so é, ë, ü etc. show up correctly -->
+  <meta charset="UTF-8">
+
+  <!-- Makes the page scale properly on phones. Without this, mobile looks zoomed out. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Shown in the browser tab and by Google -->
+  <title>Leo Peters</title>
+
+  <!-- The one-line description Google shows under your link -->
+  <meta name="description" content="De persoonlijke website van Leo Peters.">
+
+  <!--
+    This line loads your styling. The HTML says WHAT is on the
+    page; the CSS in style.css says what it LOOKS like.
+    href="style.css" means "the file style.css, in the same folder as me".
+  -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- The <body> is everything the visitor actually sees. -->
+
+  <!--
+    <main> marks the main content of the page. Tags like <main>,
+    <header>, <footer> don't look different by themselves — they
+    exist to give MEANING, which helps Google and screen readers.
+  -->
+  <main>
+
+    <!-- <h1> = the most important heading on the page. Use exactly one. -->
+    <h1>Ewa dikkertje</h1>
+
+    <!-- <p> = paragraph. Plain text. -->
+    <p class="intro">
+      Welkom op mijn eerste zelfgebouwde website.
+      Handgeschreven in HTML en CSS.
+    </p>
+
+    <!--
+      THE PICTURE.
+      src  = which file to show (photo.jpg, sitting in the same folder)
+      alt  = a text description, read aloud to blind visitors and
+             shown if the image fails to load. Never leave it empty.
+      width/height = the image's real pixel size. Telling the browser
+             up front stops the page from "jumping" while it loads.
+    -->
+    <img
+      src="photo.jpg"
+      alt="Beschrijf hier kort wat er op de foto te zien is"
+      width="1200"
+      height="800">
+
+    <!-- A short caption under the image. Optional — delete if you don't want it. -->
+    <p class="caption">Een korte omschrijving bij de foto.</p>
+
+  </main>
+
+  <footer>
+    <!-- &copy; is the © symbol. Special characters are written like this in HTML. -->
+    <p>&copy; 2026 Leo Peters &middot; <a href="mailto:leojan.peters@gmail.com">Mail me</a></p>
+  </footer>
+
+</body>
+</html>

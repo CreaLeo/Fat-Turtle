@@ -1,0 +1,171 @@
+/* ============================================================
+   style.css  —  how the page LOOKS
+   ============================================================
+
+   CSS works with "rules". Every rule has this shape:
+
+       selector {
+         property: value;
+       }
+
+   The SELECTOR picks which elements to style ("body", "h1",
+   ".intro"). The PROPERTIES inside the { } say what to change.
+
+   A name starting with a dot (.intro) matches any element with
+   class="intro" in the HTML. That's how you style one specific
+   thing instead of all paragraphs at once.
+
+   Text between  slash-star  and  star-slash  is a comment.
+   ============================================================ */
+
+
+/* ---- 1. Variables ------------------------------------------
+   These are your own reusable values. Define a colour once here
+   and use it everywhere below. Change it here, and it changes
+   across the whole site. :root just means "the whole document".
+------------------------------------------------------------ */
+:root {
+  --ink:        #1a1a1a;   /* main text colour       */
+  --muted:      #6b6b6b;   /* softer, secondary text */
+  --background: #fbfaf8;   /* page background        */
+  --accent:     #1d4ed8;   /* link colour            */
+  --max-width:  46rem;     /* how wide content gets  */
+}
+
+
+/* ---- 2. A tiny reset ---------------------------------------
+   Browsers add default margins and padding. This wipes them so
+   you start from a predictable, blank slate.
+
+   The * means "every element".
+   box-sizing: border-box makes widths include padding + border,
+   which is far more intuitive than the default.
+------------------------------------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* ---- 3. The page as a whole -------------------------------- */
+body {
+  /* A font "stack": the browser uses the first one it has installed. */
+  font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* 1.6 = line height is 1.6x the font size. Makes text readable. */
+  line-height: 1.6;
+
+  color: var(--ink);              /* var() reads a variable from :root */
+  background-color: var(--background);
+
+  /* Slightly softer text rendering on Mac */
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ---- 4. The content column ---------------------------------
+   max-width stops lines getting uncomfortably long on a big
+   screen. "margin: 0 auto" centres the block horizontally:
+   0 top/bottom, auto left/right.
+------------------------------------------------------------ */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+
+  /* padding = space INSIDE the box. 4rem top/bottom, 1.5rem sides. */
+  padding: 4rem 1.5rem 2rem;
+}
+
+
+/* ---- 5. Headings and text ---------------------------------- */
+h1 {
+  /* clamp(min, preferred, max): the font grows with the screen
+     but never smaller than 2rem or bigger than 3rem.
+     5vw = 5% of the viewport width. This is responsive type. */
+  font-size: clamp(2rem, 5vw, 3rem);
+
+  line-height: 1.15;
+  letter-spacing: -0.02em;   /* tighten big text slightly */
+  margin-bottom: 1rem;
+}
+
+.intro {
+  font-size: 1.15rem;
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+}
+
+
+/* ---- 6. The image ------------------------------------------
+   These two lines are the most important CSS on the page.
+
+   max-width: 100%  →  never wider than its container, so it
+                       can't overflow on a phone.
+   height: auto     →  keep the original proportions while it
+                       shrinks. Without this, it squashes.
+
+   display: block removes a small gap browsers leave under
+   images by default.
+------------------------------------------------------------ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+
+  border-radius: 8px;                          /* rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);  /* soft shadow */
+}
+
+.caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+
+/* ---- 7. Footer --------------------------------------------- */
+footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-top: 1px solid #e5e3df;
+}
+
+
+/* ---- 8. Links ---------------------------------------------- */
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;   /* push the underline down a bit */
+}
+
+/* :hover is a "pseudo-class" — it applies only while the mouse
+   is over the element. */
+a:hover {
+  text-decoration: none;
+}
+
+
+/* ---- 9. Dark mode ------------------------------------------
+   A media query applies its rules only in certain conditions.
+   This one triggers when the visitor's device is set to dark
+   mode. Because all our colours are variables, we only need to
+   redefine those five lines — everything else follows.
+   Delete this whole block if you'd rather always be light.
+------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink:        #ececec;
+    --muted:      #a0a0a0;
+    --background: #141414;
+    --accent:     #7aa2ff;
+  }
+
+  footer {
+    border-top-color: #2c2c2c;
+  }
+}
