@@ -32,7 +32,12 @@
             1619503569646-50b2154078ac   glass on dark wood
 ------------------------------------------------------------ */
 :root {
-  --img-hero:  url("https://images.unsplash.com/photo-1709548145082-04d0cde481d4?auto=format&fit=crop&w=2400&q=80");
+  /* Your own photography, served from the images/ folder.
+     --img-hero-portrait is used on phones, where a tall crop of
+     the same room works better than a wide one. */
+  --img-hero:          url("images/hero.jpg");
+  --img-hero-portrait: url("images/hero-portrait.jpg");
+
   --img-drink: url("https://images.unsplash.com/photo-1607687633950-c745bdb4da70?auto=format&fit=crop&w=1400&q=80");
 
   /* Shown underneath the photographs, so the page still reads
@@ -256,17 +261,18 @@ button, select { font: inherit; color: inherit; }
 }
 
 .nav__link {
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  font-weight: 400;                /* was 300 — a touch more presence */
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--espresso);          /* black, for maximum legibility */
   padding-block: 0.35rem;
   border-bottom: 1px solid transparent;
   transition: color 0.4s var(--ease), border-color 0.4s var(--ease);
 }
-.nav__link:hover { color: var(--ink); }
+.nav__link:hover { color: var(--bronze); }
 .nav__link.is-active {
-  color: var(--bronze);
+  color: var(--espresso);
   border-bottom-color: var(--bronze);
 }
 
@@ -283,7 +289,7 @@ button, select { font: inherit; color: inherit; }
   transition: padding 0.5s var(--ease);
 }
 .nav__logo img {
-  width: clamp(112px, 12vw, 168px);
+  width: clamp(150px, 16vw, 218px);
   height: auto;
 }
 .nav.is-scrolled .nav__logo { padding-bottom: 0.75rem; }
@@ -361,7 +367,7 @@ button, select { font: inherit; color: inherit; }
   background-color: #241c14;
   background-image: var(--img-hero), var(--img-hero-fallback);
   background-size: cover;
-  background-position: center 58%;
+  background-position: center 55%;
   transform: scale(1.04);
   animation: heroSettle 9s var(--ease) forwards;
 }
@@ -377,8 +383,8 @@ button, select { font: inherit; color: inherit; }
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(180deg, rgba(20,16,11,0.42) 0%, rgba(20,16,11,0.20) 38%, rgba(20,16,11,0.52) 100%),
-    radial-gradient(ellipse at 50% 55%, rgba(0,0,0,0) 25%, rgba(18,14,9,0.34) 100%);
+    linear-gradient(180deg, rgba(20,16,11,0.46) 0%, rgba(20,16,11,0.26) 45%, rgba(20,16,11,0.56) 100%),
+    radial-gradient(ellipse 72% 58% at 50% 46%, rgba(14,11,7,0.40) 0%, rgba(14,11,7,0) 100%);
 }
 
 .hero__content {
@@ -690,6 +696,13 @@ button, select { font: inherit; color: inherit; }
 /* Keep the hero title from crowding the hanging logo panel */
 @media (max-width: 47.99rem) {
   .hero__content { padding-top: 7.5rem; }
+
+  /* On a narrow screen the tall crop of the same room keeps more
+     of the lamps and the bar in view than the wide one would. */
+  .hero__media {
+    background-image: var(--img-hero-portrait), var(--img-hero-fallback);
+    background-position: center 42%;
+  }
 }
 
 
